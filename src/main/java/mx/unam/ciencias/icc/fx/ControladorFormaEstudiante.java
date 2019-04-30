@@ -155,6 +155,7 @@ public class ControladorFormaEstudiante extends ControladorForma {
      */
     public void setVerbo(String verbo) {
         // Aquí va su código.
+        botonAceptar.setText(verbo);
     }
 
     /**

@@ -130,6 +130,7 @@ public class ControladorTablaEstudiantes {
      */
     public void reordena() {
         // Aquí va su código.
+        tabla.sort();
     }
 
     /**
@@ -137,5 +138,6 @@ public class ControladorTablaEstudiantes {
      */
     public void enfocaTabla() {
         // Aquí va su código.
+        tabla.requestFocus();
     }
 }

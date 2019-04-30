@@ -103,7 +103,7 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
      */
     public double getPromedio() {
         // Aquí va su código.
-        this.promedio.get();
+        return this.promedio.get();
     }
 
     /**
@@ -112,7 +112,7 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
      */
     public void setPromedio(double promedio) {
         // Aquí va su código.
-        return promedio.set(promedio);
+        this.promedio.set(promedio);
     }
 
     /**
@@ -121,7 +121,7 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
      */
     public DoubleProperty promedioProperty() {
         // Aquí va su código.
-        this.promedio = promedio;
+        return this.promedio = promedio;
     }
 
     /**
@@ -160,7 +160,7 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
                                       "Cuenta   : %09d\n" +
                                       "Promedio : %2.2f\n" +
                                       "Edad     : %d",
-                                      nombre, cuenta, promedio, edad);
+                                      getNombre(), getCuenta(), getPromedio(), getEdad());
         return cadena;
     }
 
@@ -177,10 +177,10 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
             return false;
         Estudiante estudiante = (Estudiante)objeto;
         return (estudiante == null)
-        ||(!this.nombre.equals(estudiante.nombre))
-        ||(this.cuenta != (estudiante.cuenta))
-        ||(this.promedio != (estudiante.promedio))
-        ||(this.edad != (estudiante.edad)) ? false : true;
+        ||(!this.getNombre().equals(estudiante.getNombre()))
+        ||(this.getCuenta() != (estudiante.getCuenta()))
+        ||(this.getPromedio() != (estudiante.getPromedio()))
+        ||(this.getEdad() != (estudiante.getEdad())) ? false : true;
 
     }
 
@@ -191,10 +191,10 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
      */
     @Override public void guarda(BufferedWriter out) throws IOException {
         out.write(String.format("%s\t%d\t%2.2f\t%d\n",
-                              nombre,
-                              cuenta,
-                              promedio,
-                              edad));
+                              getNombre(),
+                              getCuenta(),
+                              getPromedio(),
+                              getEdad()));
     }
 
     /**
@@ -215,11 +215,11 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
       String[] t=l.split("\t");
       if(t.length != 4)
               throw new IOException();
-      nombre=t[0];
+      setNombre(t[0]);
       try{
-              cuenta=Integer.parseInt(t[1]);
-              promedio=Double.parseDouble(t[2]);
-              edad=Integer.parseInt(t[3]);
+              setCuenta(Integer.parseInt(t[1]));
+              setPromedio(Double.parseDouble(t[2]));
+              setEdad(Integer.parseInt(t[3]));
       } catch(NumberFormatException nfe) {
               throw new IOException("error entrada salida");
       }
@@ -274,28 +274,28 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
             String v=(String)o;
             if(v.isEmpty())
                     return false;
-            return nombre.indexOf(v)!=-1;
+            return getNombre().indexOf(v)!=-1;
     }
 
     private boolean cazaCuenta(Object o){
             if(!(o instanceof Integer))
                     return false;
             Integer v=(Integer)o;
-            return cuenta>=v.intValue();
+            return getCuenta() >=v.intValue();
     }
 
     private boolean cazaPromedio(Object o){
             if(!(o instanceof Double))
                     return false;
             Double v=(Double)o;
-            return promedio>=v.doubleValue();
+            return getPromedio() >=v.doubleValue();
     }
 
     private boolean cazaEdad(Object o){
             if(!(o instanceof Integer))
                     return false;
             Integer v=(Integer)o;
-            return edad>=v.intValue();
+            return getEdad() >=v.intValue();
     }
 
     /**
@@ -310,4 +310,5 @@ public class Estudiante implements Registro<Estudiante, CampoEstudiante> {
         setEdad(estudiante.getEdad());
 
         /*tengo todavia duda en esta parte*/
+        }
 }

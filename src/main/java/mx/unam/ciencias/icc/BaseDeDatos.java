@@ -61,8 +61,8 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      */
     public void agregaRegistro(R registro) {
         registros.agregaFinal(registro);
-        for (Lista<EscuchaBaseDeDatos<R>> recorreEscuchas : escuchas )
-          recorreEscuchas.baseDeDatosModificada(REGISTRO_AGREGADO, registro, null);
+        for (EscuchaBaseDeDatos<R> recorreEscuchas : escuchas )
+          recorreEscuchas.baseDeDatosModificada(EventoBaseDeDatos.REGISTRO_AGREGADO, registro, null);
     }
 
     /**
@@ -72,9 +72,9 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      * @param registro el registro que hay que eliminar de la base de datos.
      */
     public void eliminaRegistro(R registro) {
-        registro.elimina(registro);
-        for (Lista<EscuchaBaseDeDatos<R>> recorreEscuchas : escuchas )
-          escuchas.baseDeDatosModificada(REGISTRO_ELIMINADO, null, null);
+        registros.elimina(registro);
+        for (EscuchaBaseDeDatos<R> recorreEscuchas : escuchas )
+          recorreEscuchas.baseDeDatosModificada(EventoBaseDeDatos.REGISTRO_ELIMINADO, registro, null);
 
     }
 
@@ -109,9 +109,9 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      * EventoBaseDeDatos#BASE_LIMPIADA}
      */
     public void limpia() {
-        registro.limpia();
-        for (Lista<EscuchaBaseDeDatos<R>> recorreEscuchas : escuchas )
-            recorreEscuchas.baseDeDatosModificada(BASE_LIMPIADA, null, null);
+        registros.limpia();
+        for (EscuchaBaseDeDatos<R> recorreEscuchas : escuchas )
+            recorreEscuchas.baseDeDatosModificada(EventoBaseDeDatos.BASE_LIMPIADA, null, null);
     }
 
     /**
@@ -137,12 +137,19 @@ public abstract class BaseDeDatos<R extends Registro<R, C>, C extends Enum> {
      * @throws IOException si ocurre un error de entrada/salida.
      */
     public void carga(BufferedReader in) throws IOException {
-        registros.limpia();
-        R r = creaRegistro();
-        while (r.carga(in)) {
-                agregaRegistro(r);
-                r=creaRegistro();
-        }
+        try{
+            this.registros.limpia();
+            for(EscuchaBaseDeDatos<R> escucha : this.escuchas)
+            escucha.baseDeDatosModificada(EventoBaseDeDatos.BASE_LIMPIADA, null, null);
+            R r = creaRegistro();
+            while(r.carga(in)){
+              agregaRegistro(r);
+              r = creaRegistro();
+            }
+          } catch (Exception e){
+            throw new IOException();
+          }
+
     }
 
     /**

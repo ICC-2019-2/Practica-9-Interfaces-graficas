@@ -126,13 +126,21 @@ public class ControladorFormaBusquedaEstudiantes extends ControladorForma {
      * @return el valor ingresado.
      */
     public Object getValor() {
-        // Aquí va su código.
+        // Aquí va su código, aqui todavia tengo dudas.
+        switch (opcionesCampo.getValue()) {
+          case NOMBRE:   return entradaValor.getText();
+          case CUENTA:   return Integer.parseInt(entradaValor.getText());
+          case PROMEDIO: return Double.parseDouble(entradaValor.getText());
+          case EDAD:     return Integer.parseInt(entradaValor.getText());
+          default:       return entradaValor.getText(); // No debería ocurrir.
+        }
     }
 
     /**
-     * Define el foco incial del diálogo.
+     * Define el foco incial del diálogo, aqui todavia tengo dudas.
      */
     @Override public void defineFoco() {
-        // Aquí va su código.
+        // Aquí va su código, necesito buscar que es el defineFoco.
+        entradaValor.requestFocus();
     }
 }
